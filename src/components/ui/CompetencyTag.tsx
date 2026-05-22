@@ -1,0 +1,9 @@
+import type { Competency } from "../../data/mockData";
+
+export function CompetencyTag({ competency }: { competency: Competency | string }) {
+  return (
+    <span className="inline-flex items-center rounded-md border border-slate-200 bg-slate-50 px-2.5 py-1 text-xs font-medium text-slate-700">
+      {competency}
+    </span>
+  );
+}
