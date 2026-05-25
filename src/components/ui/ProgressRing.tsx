@@ -4,7 +4,7 @@ type ProgressRingProps = {
   label?: string;
 };
 
-export function ProgressRing({ value, size = 112, label = "Readiness" }: ProgressRingProps) {
+export function ProgressRing({ value, size = 112, label = "Planning" }: ProgressRingProps) {
   const stroke = 9;
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;

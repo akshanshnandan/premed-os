@@ -3,7 +3,7 @@ import { SectionHeader } from "../../components/ui/SectionHeader";
 import { StoryCard } from "../../components/ui/StoryCard";
 import { stories } from "../../data/mockData";
 
-const themes = ["all", "empathy", "resilience", "leadership", "service", "curiosity", "ethical judgment", "teamwork"];
+const themes = ["all", "empathy", "resilience", "leadership", "curiosity", "ethical judgment", "teamwork"];
 
 export function StoryBankPage() {
   const [theme, setTheme] = useState("all");
@@ -15,7 +15,16 @@ export function StoryBankPage() {
         eyebrow="Story bank"
         title="Interview and secondary stories"
         description="When a prompt asks about empathy, resilience, leadership, or a mistake, you should not have to search your memory from scratch."
-        action={<button className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white">Add story</button>}
+        action={
+          <button
+            type="button"
+            disabled
+            title="Story creation requires a backend in a future release"
+            className="cursor-not-allowed rounded-md bg-slate-300 px-4 py-2 text-sm font-semibold text-slate-600"
+          >
+            Add story
+          </button>
+        }
       />
       <div className="flex gap-2 overflow-x-auto rounded-lg border border-slate-200 bg-white p-2 shadow-sm scrollbar-thin">
         {themes.map((item) => (

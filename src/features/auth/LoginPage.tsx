@@ -27,7 +27,7 @@ export function LoginPage() {
               Continue
             </Link>
           </form>
-          <p className="mt-5 text-center text-sm text-slate-500">New here? <Link to="/dashboard" className="font-semibold text-brand-700">Start your readiness check</Link></p>
+          <p className="mt-5 text-center text-sm text-slate-500">New here? <Link to="/onboarding" className="font-semibold text-brand-700">Start free readiness check</Link></p>
         </div>
       </div>
     </div>

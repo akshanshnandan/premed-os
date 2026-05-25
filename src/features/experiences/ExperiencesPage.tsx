@@ -1,11 +1,14 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import { EmptyState } from "../../components/ui/EmptyState";
 import { ExperienceCard } from "../../components/ui/ExperienceCard";
 import { SectionHeader } from "../../components/ui/SectionHeader";
-import { experiences, type Competency } from "../../data/mockData";
+import { useAppData } from "../../context/AppDataContext";
+import type { Competency } from "../../data/mockData";
 import { competencies, experienceTypes } from "../../lib/constants";
 
 export function ExperiencesPage() {
+  const { experiences } = useAppData();
   const [type, setType] = useState("All");
   const [competency, setCompetency] = useState("All");
   const filtered = useMemo(
@@ -15,7 +18,7 @@ export function ExperiencesPage() {
         const matchesCompetency = competency === "All" || experience.competencies.includes(competency as Competency);
         return matchesType && matchesCompetency;
       }),
-    [type, competency],
+    [type, competency, experiences],
   );
 
   return (
@@ -24,21 +27,29 @@ export function ExperiencesPage() {
         eyebrow="Experience tracker"
         title="All experiences"
         description="Keep the details that are easy to forget: who supervised you, what you actually did, what changed, and what the experience taught you."
-        action={<button className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white">Add experience</button>}
+        action={
+          <Link to="/experiences/new" className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+            Add experience
+          </Link>
+        }
       />
       <div className="grid gap-3 rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:grid-cols-2">
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Type
           <select value={type} onChange={(event) => setType(event.target.value)} className="rounded-md border border-slate-300 px-3 py-2">
             <option>All</option>
-            {experienceTypes.map((item) => <option key={item}>{item}</option>)}
+            {experienceTypes.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
           </select>
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Competency
           <select value={competency} onChange={(event) => setCompetency(event.target.value)} className="rounded-md border border-slate-300 px-3 py-2">
             <option>All</option>
-            {competencies.map((item) => <option key={item}>{item}</option>)}
+            {competencies.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
           </select>
         </label>
       </div>

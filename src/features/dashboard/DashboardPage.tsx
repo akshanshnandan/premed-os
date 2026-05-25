@@ -1,31 +1,36 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { ExperienceCard } from "../../components/ui/ExperienceCard";
-import { ProgressRing } from "../../components/ui/ProgressRing";
+import { ScoreWithDisclaimer } from "../../components/ui/ScoreWithDisclaimer";
 import { SectionHeader } from "../../components/ui/SectionHeader";
 import { StatCard } from "../../components/ui/StatCard";
-import { experiences, profiles, readinessCategories, timeline, weeklyActions } from "../../data/mockData";
+import { useAppData } from "../../context/AppDataContext";
+import { profiles, readinessCategories, timeline, weeklyActions } from "../../data/mockData";
 
 export function DashboardPage() {
+  const { experiences } = useAppData();
   const profile = profiles[0];
   const weaknesses = [...readinessCategories].sort((a, b) => a.score - b.score).slice(0, 3);
   const strongest = [...readinessCategories].sort((a, b) => b.score - a.score).slice(0, 3);
   const topActions = weeklyActions.slice(0, 3);
+  const [feedbackChoice, setFeedbackChoice] = useState("");
+  const [feedbackSubmitted, setFeedbackSubmitted] = useState(false);
 
   return (
     <div className="space-y-8">
       <SectionHeader
         eyebrow="Application command center"
-        title={`You're ${profile.stats.monthsUntilCycle} months from application season.`}
-        description="Here are the 3 actions most likely to strengthen your file this week, based on your evidence, gaps, and draft readiness."
+        title={`Sample profile: ${profile.stats.monthsUntilCycle} months from application season`}
+        description="Three planning actions for this demo profile based on evidence gaps and draft readiness—not admissions predictions."
         action={<Link to="/drafts" className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Open drafts</Link>}
       />
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
         <div className="grid gap-4 lg:grid-cols-[260px_1fr]">
           <div className="flex items-center gap-5 rounded-lg border border-brand-100 bg-brand-50 p-5">
-            <ProgressRing value={profile.readinessScore} />
+            <ScoreWithDisclaimer value={profile.readinessScore} size={96} />
             <div>
-              <p className="text-sm font-semibold text-brand-900">Readiness signal</p>
-              <p className="mt-1 text-sm leading-6 text-brand-800">Strong foundation. The work now is sharpening evidence and closing the gaps that can still be fixed.</p>
+              <p className="text-sm font-semibold text-brand-900">Planning completeness preview</p>
+              <p className="mt-1 text-sm leading-6 text-brand-800">Shows how gaps and next steps could be organized for this sample profile.</p>
             </div>
           </div>
           <div className="grid gap-3 md:grid-cols-3">
@@ -40,8 +45,8 @@ export function DashboardPage() {
       </section>
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Application clock" value={`${profile.stats.monthsUntilCycle} mo`} detail="Until primary application season" tone="indigo" />
-        <StatCard label="Draft readiness" value={`${profile.stats.drafts}/15`} detail="Activities with a usable first draft" tone="emerald" />
-        <StatCard label="Strongest evidence" value={strongest[0].label} detail={`${strongest[0].score}/100 with sustained examples`} />
+        <StatCard label="Draft readiness" value={`${experiences.filter((e) => e.draftStatus !== "Not started").length}/${experiences.length}`} detail="Activities with a usable first draft" tone="emerald" />
+        <StatCard label="Strongest evidence" value={strongest[0].label} detail={`${strongest[0].score}/100 planning score`} />
         <StatCard label="Weakest gap" value={weaknesses[0].label} detail="Highest leverage area to address next" />
       </div>
       <div className="grid gap-5 xl:grid-cols-[1fr_360px]">
@@ -49,9 +54,9 @@ export function DashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-slate-950">Evidence map</h2>
-              <p className="mt-1 text-sm text-slate-600">Scores reflect what you can currently support with hours, roles, reflections, and clear outcomes.</p>
+              <p className="mt-1 text-sm text-slate-600">Category scores reflect planning completeness—not admissions predictions.</p>
             </div>
-            <ProgressRing value={profile.readinessScore} />
+            <ScoreWithDisclaimer value={profile.readinessScore} size={96} />
           </div>
           <div className="mt-6 grid gap-3 md:grid-cols-2">
             {readinessCategories.slice(0, 6).map((category) => (
@@ -121,6 +126,68 @@ export function DashboardPage() {
           </div>
         </section>
       </div>
+      <section className="rounded-lg border border-brand-100 bg-white p-5 shadow-sm">
+        {feedbackSubmitted ? (
+          <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-5">
+            <h2 className="font-semibold text-emerald-950">Thanks for the feedback.</h2>
+            <p className="mt-2 text-sm leading-6 text-emerald-800">
+              Your response helps shape what Premed OS should become for students preparing for the application cycle.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setFeedbackSubmitted(false);
+                setFeedbackChoice("");
+              }}
+              className="mt-4 rounded-md border border-emerald-300 bg-white px-4 py-2 text-sm font-semibold text-emerald-800"
+            >
+              Add another response
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              setFeedbackSubmitted(true);
+            }}
+            className="grid gap-5 lg:grid-cols-[280px_1fr]"
+          >
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-brand-600">Early user feedback</p>
+              <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-950">Would you use this?</h2>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                A quick answer is enough. The goal is to learn whether this command center matches how premed students actually plan.
+              </p>
+            </div>
+            <div className="grid gap-4">
+              <div className="flex flex-wrap gap-2">
+                {["Yes", "Maybe", "No"].map((choice) => (
+                  <button
+                    key={choice}
+                    type="button"
+                    onClick={() => setFeedbackChoice(choice)}
+                    className={
+                      feedbackChoice === choice
+                        ? "rounded-md bg-slate-950 px-4 py-2 text-sm font-semibold text-white"
+                        : "rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                    }
+                  >
+                    {choice}
+                  </button>
+                ))}
+              </div>
+              <textarea
+                rows={3}
+                placeholder="What would make this more useful before application season?"
+                className="w-full resize-y rounded-md border border-slate-300 px-3 py-2 text-sm leading-6 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+              />
+              <button type="submit" className="w-fit rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+                Send feedback
+              </button>
+            </div>
+          </form>
+        )}
+      </section>
     </div>
   );
 }

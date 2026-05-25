@@ -1,48 +1,129 @@
-import type { Experience } from "../../data/mockData";
-import { competencies } from "../../lib/constants";
-import { CompetencyTag } from "./CompetencyTag";
+import { useEffect, useState } from "react";
+import type { Competency, Experience } from "../../data/mockData";
+import { competencies, experienceTypes } from "../../lib/constants";
 
-export function ExperienceForm({ experience }: { experience: Experience }) {
+type ExperienceFormProps = {
+  experience: Experience;
+  onSave: (experience: Experience) => void;
+  saveLabel?: string;
+};
+
+export function ExperienceForm({ experience, onSave, saveLabel = "Save changes" }: ExperienceFormProps) {
+  const [form, setForm] = useState(experience);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setForm(experience);
+    setSaved(false);
+  }, [experience.id]);
+
+  function updateField<K extends keyof Experience>(key: K, value: Experience[K]) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+    setSaved(false);
+  }
+
+  function toggleCompetency(competency: Competency) {
+    setForm((prev) => {
+      const has = prev.competencies.includes(competency);
+      return {
+        ...prev,
+        competencies: has
+          ? prev.competencies.filter((c) => c !== competency)
+          : [...prev.competencies, competency],
+      };
+    });
+    setSaved(false);
+  }
+
+  function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    onSave(form);
+    setSaved(true);
+  }
+
   return (
-    <form className="grid gap-5 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+    <form onSubmit={handleSubmit} className="grid gap-5 rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
       <div className="grid gap-4 md:grid-cols-2">
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Title
-          <input defaultValue={experience.title} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            required
+            value={form.title}
+            onChange={(e) => updateField("title", e.target.value)}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Type
-          <input defaultValue={experience.type} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <select
+            value={form.type}
+            onChange={(e) => updateField("type", e.target.value as Experience["type"])}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          >
+            {experienceTypes.map((item) => (
+              <option key={item}>{item}</option>
+            ))}
+          </select>
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Organization
-          <input defaultValue={experience.organization} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            value={form.organization}
+            onChange={(e) => updateField("organization", e.target.value)}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Date range
-          <input defaultValue={experience.dateRange} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            value={form.dateRange}
+            onChange={(e) => updateField("dateRange", e.target.value)}
+            placeholder="Sep 2024 - Present"
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Hours
-          <input type="number" defaultValue={experience.hours} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            type="number"
+            min={0}
+            value={form.hours}
+            onChange={(e) => updateField("hours", Number(e.target.value))}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700">
           Location
-          <input defaultValue={experience.location} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            value={form.location}
+            onChange={(e) => updateField("location", e.target.value)}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
         <label className="grid gap-1.5 text-sm font-medium text-slate-700 md:col-span-2">
           Contact
-          <input defaultValue={experience.contact} className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <input
+            value={form.contact}
+            onChange={(e) => updateField("contact", e.target.value)}
+            className="rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
       </div>
-      {[
-        ["Reflection", experience.reflection],
-        ["Impact", experience.impact],
-        ["Lessons learned", experience.lessons]
-      ].map(([label, value]) => (
-        <label key={label} className="grid gap-1.5 text-sm font-medium text-slate-700">
+      {(
+        [
+          ["reflection", "Reflection"],
+          ["impact", "Impact"],
+          ["lessons", "Lessons learned"],
+        ] as const
+      ).map(([key, label]) => (
+        <label key={key} className="grid gap-1.5 text-sm font-medium text-slate-700">
           {label}
-          <textarea defaultValue={value} rows={4} className="resize-y rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100" />
+          <textarea
+            value={form[key]}
+            onChange={(e) => updateField(key, e.target.value)}
+            rows={4}
+            className="resize-y rounded-md border border-slate-300 px-3 py-2 text-slate-950 shadow-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+          />
         </label>
       ))}
       <div>
@@ -52,24 +133,22 @@ export function ExperienceForm({ experience }: { experience: Experience }) {
             <button
               key={competency}
               type="button"
-              className={experience.competencies.includes(competency) ? "rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700" : "rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600"}
+              onClick={() => toggleCompetency(competency)}
+              className={
+                form.competencies.includes(competency)
+                  ? "rounded-md border border-brand-200 bg-brand-50 px-2.5 py-1 text-xs font-medium text-brand-700"
+                  : "rounded-md border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50"
+              }
             >
               {competency}
             </button>
           ))}
         </div>
-        <div className="mt-3 flex flex-wrap gap-2">
-          {experience.competencies.map((competency) => (
-            <CompetencyTag key={competency} competency={competency} />
-          ))}
-        </div>
       </div>
-      <div className="flex justify-end gap-3 border-t border-slate-200 pt-5">
-        <button type="button" className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-          Save as draft
-        </button>
-        <button type="button" className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
-          Save changes
+      <div className="flex flex-wrap items-center justify-end gap-3 border-t border-slate-200 pt-5">
+        {saved ? <span className="text-sm font-medium text-emerald-700">Saved to this browser.</span> : null}
+        <button type="submit" className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+          {saveLabel}
         </button>
       </div>
     </form>

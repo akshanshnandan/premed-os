@@ -4,8 +4,10 @@ import { LoginPage } from "../features/auth/LoginPage";
 import { DashboardPage } from "../features/dashboard/DashboardPage";
 import { DraftsPage } from "../features/drafts/DraftsPage";
 import { ExperienceDetailPage } from "../features/experiences/ExperienceDetailPage";
+import { ExperienceNewPage } from "../features/experiences/ExperienceNewPage";
 import { ExperiencesPage } from "../features/experiences/ExperiencesPage";
 import { LandingPage } from "../features/landing/LandingPage";
+import { OnboardingPage } from "../features/onboarding/OnboardingPage";
 import { PlanPage } from "../features/plan/PlanPage";
 import { PricingPage } from "../features/pricing/PricingPage";
 import { ReadinessPage } from "../features/readiness/ReadinessPage";
@@ -14,6 +16,7 @@ import { StoryBankPage } from "../features/storyBank/StoryBankPage";
 
 export const router = createBrowserRouter([
   { path: "/", element: <LandingPage /> },
+  { path: "/onboarding", element: <OnboardingPage /> },
   { path: "/pricing", element: <PricingPage /> },
   { path: "/login", element: <LoginPage /> },
   {
@@ -21,6 +24,7 @@ export const router = createBrowserRouter([
     children: [
       { path: "/dashboard", element: <DashboardPage /> },
       { path: "/experiences", element: <ExperiencesPage /> },
+      { path: "/experiences/new", element: <ExperienceNewPage /> },
       { path: "/experiences/:id", element: <ExperienceDetailPage /> },
       { path: "/drafts", element: <DraftsPage /> },
       { path: "/story-bank", element: <StoryBankPage /> },
