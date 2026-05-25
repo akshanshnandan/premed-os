@@ -12,7 +12,7 @@ export function ReadinessPage() {
       <SectionHeader
         eyebrow="Planning report"
         title="Know where your application is strong, and where it still needs care"
-        description="This demo shows how Premed OS can organize evidence, gaps, and next actions. Scores measure planning completeness—not admissions chances."
+        description="This preview shows how Premed OS can organize evidence, gaps, and next actions. Scores measure planning completeness—not admissions chances."
       />
       <RiskBanner title="Planning tool, not a prediction" message="Premed OS does not estimate admissions odds or guarantee outcomes. Use this report to make better decisions about your time, evidence, writing, and school list." />
       <section className="grid gap-5 lg:grid-cols-[320px_1fr]">

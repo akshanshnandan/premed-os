@@ -11,7 +11,7 @@ const steps = [
   },
   {
     title: "What feels hardest right now?",
-    description: "This helps us show the right starting point in the demo.",
+    description: "This helps us show the right starting point in the workspace.",
     field: "pain",
     options: [
       "Remembering experience details",
@@ -59,7 +59,7 @@ export function OnboardingPage() {
             Premed OS
           </Link>
           <Link to="/dashboard" className="text-sm font-medium text-slate-600 hover:text-slate-950">
-            Skip to demo
+            Skip to workspace
           </Link>
         </div>
       </header>
@@ -110,12 +110,12 @@ export function OnboardingPage() {
               onClick={finish}
               className="inline-flex items-center gap-2 rounded-md bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-40"
             >
-              Open demo workspace <ArrowRight className="h-4 w-4" />
+              Open workspace <ArrowRight className="h-4 w-4" />
             </button>
           )}
         </div>
         <p className="mt-8 text-xs leading-5 text-slate-500">
-          This is a mock readiness check for product validation. Answers stay in this session only and do not affect demo scores.
+          This short questionnaire is for early feedback only. Answers stay in this session and do not change planning scores.
         </p>
       </main>
     </div>

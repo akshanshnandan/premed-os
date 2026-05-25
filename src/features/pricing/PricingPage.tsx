@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { FeedbackLink } from "../../components/ui/FeedbackLink";
 import { PricingCard } from "../../components/ui/PricingCard";
 import { SectionHeader } from "../../components/ui/SectionHeader";
 
@@ -28,7 +29,7 @@ export function PricingPage() {
             detail="Useful for students who want to stop losing details before application season."
             features={[
               "Track experiences while details are fresh",
-              "Planning preview and demo workspace",
+              "Planning preview and full workspace",
               "Starter AMCAS draft workspace",
               "Competency tags for early planning",
             ]}
@@ -72,7 +73,7 @@ export function PricingPage() {
       </main>
       <footer className="border-t border-slate-200 bg-white">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 px-4 py-6 text-sm text-slate-600 sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
-          <p>© Premed OS — early access demo</p>
+          <p>© Premed OS — early access</p>
           <div className="flex flex-wrap gap-4">
             <Link to="/" className="font-medium hover:text-slate-950">
               Home
@@ -83,6 +84,7 @@ export function PricingPage() {
             <Link to="/dashboard" className="font-medium hover:text-slate-950">
               View demo
             </Link>
+            <FeedbackLink variant="inline" className="text-slate-600 hover:text-slate-950" />
           </div>
         </div>
       </footer>

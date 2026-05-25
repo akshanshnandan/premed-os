@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ExperienceCard } from "../../components/ui/ExperienceCard";
 import { ScoreWithDisclaimer } from "../../components/ui/ScoreWithDisclaimer";
 import { SectionHeader } from "../../components/ui/SectionHeader";
+import { FeedbackLink } from "../../components/ui/FeedbackLink";
 import { StatCard } from "../../components/ui/StatCard";
 import { useAppData } from "../../context/AppDataContext";
 import { profiles, readinessCategories, timeline, weeklyActions } from "../../data/mockData";
@@ -21,7 +22,7 @@ export function DashboardPage() {
       <SectionHeader
         eyebrow="Application command center"
         title={`Sample profile: ${profile.stats.monthsUntilCycle} months from application season`}
-        description="Three planning actions for this demo profile based on evidence gaps and draft readiness—not admissions predictions."
+        description="Three planning actions for this example profile based on evidence gaps and draft readiness—not admissions predictions."
         action={<Link to="/drafts" className="rounded-md bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">Open drafts</Link>}
       />
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
@@ -158,6 +159,9 @@ export function DashboardPage() {
               <p className="mt-2 text-sm leading-6 text-slate-600">
                 A quick answer is enough. The goal is to learn whether this command center matches how premed students actually plan.
               </p>
+              <div className="mt-4">
+                <FeedbackLink variant="inline" />
+              </div>
             </div>
             <div className="grid gap-4">
               <div className="flex flex-wrap gap-2">

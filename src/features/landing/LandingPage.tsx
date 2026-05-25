@@ -2,6 +2,7 @@ import { ArrowRight, CheckCircle2, Menu, ShieldCheck, X } from "lucide-react";
 import type { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { FeedbackLink } from "../../components/ui/FeedbackLink";
 import { ScoreWithDisclaimer } from "../../components/ui/ScoreWithDisclaimer";
 import { experiences, profiles, readinessCategories } from "../../data/mockData";
 
@@ -34,6 +35,12 @@ export function LandingPage() {
       document.removeEventListener("touchstart", handlePointerDown);
     };
   }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    if (window.location.hash === "#feedback-form") {
+      document.getElementById("feedback-form")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
 
   function handleWaitlistSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -263,6 +270,20 @@ export function LandingPage() {
             </div>
           </div>
         </section>
+        <section id="feedback-form" className="border-t border-slate-200 bg-[#faf9f6] scroll-mt-20">
+          <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+            <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+              <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-600">We want your feedback</p>
+              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-950">Help shape Premed OS for real premed students</h2>
+              <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+                After you try the workspace, tell us what felt useful, confusing, or missing. Honest feedback from students applying to medical school is how we decide what to build next.
+              </p>
+              <div className="mt-6">
+                <FeedbackLink />
+              </div>
+            </div>
+          </div>
+        </section>
         <section className="border-t border-slate-200 bg-slate-950">
           <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-10 text-white sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
             <div className="flex gap-3">
@@ -294,6 +315,7 @@ export function LandingPage() {
             <Link to={demoHref} className="hover:text-slate-950">
               View demo
             </Link>
+            <FeedbackLink variant="inline" className="text-slate-600 hover:text-slate-950" />
           </nav>
         </div>
       </footer>

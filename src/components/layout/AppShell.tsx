@@ -1,13 +1,19 @@
 import { AppDataProvider } from "../../context/AppDataContext";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import { FeedbackLink } from "../ui/FeedbackLink";
 import { SidebarNav } from "./SidebarNav";
 import { Topbar } from "./Topbar";
 
-function DemoBanner() {
+function EarlyAccessBanner() {
   return (
     <div className="border-b border-amber-200 bg-amber-50 px-4 py-2.5 text-center text-sm text-amber-950">
-      <strong>Demo workspace.</strong> Sample profile with edits saved in this browser only. Scores are planning previews, not admissions predictions.
+      <div className="mx-auto flex max-w-5xl flex-col items-center justify-center gap-2 sm:flex-row sm:gap-4">
+        <p>
+          <strong>Early access.</strong> Example profile—your edits save in this browser only. Planning scores are not admissions predictions.
+        </p>
+        <FeedbackLink />
+      </div>
     </div>
   );
 }
@@ -18,7 +24,7 @@ export function AppShell() {
   return (
     <AppDataProvider>
       <div className="min-h-screen bg-[#faf9f6]">
-        <DemoBanner />
+        <EarlyAccessBanner />
         <div className="flex min-h-[calc(100vh-44px)]">
           <SidebarNav />
           {mobileNavOpen ? (

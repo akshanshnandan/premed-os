@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import type { Competency, Experience } from "../../data/mockData";
 import { competencies, experienceTypes } from "../../lib/constants";
 
@@ -35,7 +35,7 @@ export function ExperienceForm({ experience, onSave, saveLabel = "Save changes" 
     setSaved(false);
   }
 
-  function handleSubmit(event: React.FormEvent) {
+  function handleSubmit(event: FormEvent) {
     event.preventDefault();
     onSave(form);
     setSaved(true);
