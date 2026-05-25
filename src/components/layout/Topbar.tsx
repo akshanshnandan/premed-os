@@ -25,14 +25,8 @@ export function Topbar({ onMenuClick }: { onMenuClick: () => void }) {
           <Link to="/" className="text-slate-600 hover:text-slate-950">
             Landing
           </Link>
-          <Link to="/pricing" className="text-slate-600 hover:text-slate-950">
-            Pricing
-          </Link>
         </div>
         <div className="ml-auto flex items-center gap-3">
-          <Link to="/pricing" className="rounded-md border border-slate-200 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50 lg:hidden">
-            Pricing
-          </Link>
           <div className="hidden text-right sm:block">
             <p className="text-sm font-semibold text-slate-950">{profile.name}</p>
             <p className="text-xs text-slate-500">{profile.cycle}</p>

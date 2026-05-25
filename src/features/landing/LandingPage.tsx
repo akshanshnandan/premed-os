@@ -48,7 +48,6 @@ export function LandingPage() {
             Premed OS
           </Link>
           <nav className="hidden items-center gap-6 text-sm font-medium text-slate-600 sm:flex">
-            <Link to="/pricing" className="hover:text-slate-950">Pricing</Link>
             <Link to="/login" className="hover:text-slate-950">Log in</Link>
             <Link to={demoHref} className="rounded-md bg-slate-950 px-4 py-2 text-white hover:bg-slate-800">
               View demo
@@ -66,9 +65,6 @@ export function LandingPage() {
         {mobileMenuOpen ? (
           <div className="absolute left-0 right-0 top-full z-30 border-b border-slate-200 bg-white px-4 py-4 shadow-soft sm:hidden">
             <nav className="grid gap-2 text-sm font-medium">
-              <Link onClick={() => setMobileMenuOpen(false)} to="/pricing" className="rounded-md px-3 py-2 text-slate-700 hover:bg-slate-50">
-                Pricing
-              </Link>
               <Link onClick={() => setMobileMenuOpen(false)} to="/login" className="rounded-md px-3 py-2 text-slate-700 hover:bg-slate-50">
                 Log in
               </Link>
@@ -282,6 +278,25 @@ export function LandingPage() {
           </div>
         </section>
       </main>
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-8 sm:px-6 md:flex-row md:items-center md:justify-between lg:px-8">
+          <p className="text-sm text-slate-600">© Premed OS — early access</p>
+          <nav className="flex flex-wrap gap-6 text-sm font-medium text-slate-600">
+            <Link to="/pricing" className="hover:text-slate-950">
+              Pricing
+            </Link>
+            <Link to="/login" className="hover:text-slate-950">
+              Log in
+            </Link>
+            <Link to={startReadinessHref} className="hover:text-slate-950">
+              Start free
+            </Link>
+            <Link to={demoHref} className="hover:text-slate-950">
+              View demo
+            </Link>
+          </nav>
+        </div>
+      </footer>
     </div>
   );
 }

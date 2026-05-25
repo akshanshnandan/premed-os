@@ -63,14 +63,6 @@ export function SidebarNav({ mobile = false, onClose }: SidebarNavProps) {
           <ArrowLeft className="h-4 w-4" />
           Back to landing
         </NavLink>
-        <NavLink
-          to="/pricing"
-          onClick={onClose}
-          className="mb-2 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"
-        >
-          <CreditCard className="h-4 w-4" />
-          Pricing
-        </NavLink>
         {items.map((item) => (
           <NavLink
             key={item.to}
@@ -87,6 +79,14 @@ export function SidebarNav({ mobile = false, onClose }: SidebarNavProps) {
             {item.label}
           </NavLink>
         ))}
+        <NavLink
+          to="/pricing"
+          onClick={onClose}
+          className="mt-2 flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"
+        >
+          <CreditCard className="h-4 w-4" />
+          Pricing
+        </NavLink>
       </nav>
       <div className="m-4 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
         <p className="text-sm font-semibold text-emerald-950">Steady progress beats last-minute panic</p>
